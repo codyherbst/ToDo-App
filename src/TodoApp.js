@@ -1,5 +1,5 @@
 import React from 'react'
-
+import ToDoList from './ToDoList'
 
 //need to save input field as an object
 //      it will add in progress to status
@@ -16,15 +16,15 @@ class TodoApp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: localStorage.getItem('test') ? JSON.parse(localStorage.getItem('test')) : [],
+            items: localStorage.getItem('toDoList') ? JSON.parse(localStorage.getItem('toDoList')) : [],
             text: '',
-            status: ''
         };
         this.myStorage = localStorage
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.updateState = this.updateState.bind(this);
+        this.updateStatus = this.updateStatus.bind(this);
         this.handleClear = this.handleClear.bind(this);
+        this.removeItem = this.removeItem.bind(this);
     }
     render() {
 
@@ -44,13 +44,13 @@ class TodoApp extends React.Component {
                         Add #{this.state.items.length + 1}
                     </button>
                 </form>
-                <TodoList items={this.state.items} updateState={this.updateState} />
+                <ToDoList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} />
             </div>
         );
     }
 
     componentDidUpdate() {
-        this.myStorage.setItem('test', JSON.stringify(this.state.items))
+        this.myStorage.setItem('toDoList', JSON.stringify(this.state.items))
     }
 
     handleChange(e) {
@@ -70,59 +70,49 @@ class TodoApp extends React.Component {
             id: Date.now()
         };
 
-        this.setState(state => ({
-            items: state.items.concat(newItem),
+        this.setState(prevState => ({
+            items: prevState.items.concat(newItem),
             text: ''
         }));
     }
 
-    async updateState(e) {
+    async updateStatus(e) {
         e.persist();
-        console.log(this.state.items)
+
         await this.setState(prevState => ({
             items: prevState.items.map((item) => {
-                // console.log(prevState.items, 'here')
-                if (item.id == e.target.id) {
-                    // console.log('here')
+
+                if (item.id == e.target.id && item.status === 'in progress') {
                     item.status = 'done'
+                } else if (item.id == e.target.id && item.status === 'done') {
+                    item.status = 'in progress'
                 }
-                // console.log(prevState.items)
-                return item
+
+                return item;
             })
-        }))
-        console.log(this.state.items)
+        }));
+    }
+
+    async removeItem(e) {
+        e.persist();
+        let result = this.state.items.filter((item, i) => {
+
+            if (item.id != e.target.id) {
+                return item;
+            }
+
+        });
+        // console.log({result})
+
+        await this.setState(prevState => ({
+            items: result
+        }));
+        // console.log(this.state.items)
     }
 
     handleClear() {
         localStorage.clear();
-    }
-}
 
-class TodoList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-
-        return (
-            <ul>
-                {/* {console.log(this.props.items)} */}
-                {this.props.items.map(item => (
-                    <li key={item.id}>
-                        <input
-                            type='checkbox'
-                            name={item.id}
-                            id={item.id}
-                            onClick={this.props.updateState}
-                        />
-                        <label htmlFor={item.id}>
-                            {item.text}
-                        </label>
-                    </li>
-                ))}
-            </ul>
-        );
     }
 }
 
