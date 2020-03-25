@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import ToDoApp from './TodoApp'
 import * as serviceWorker from './serviceWorker';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 ReactDOM.render(<ToDoApp />, document.getElementById('root'));
 
