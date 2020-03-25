@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import './ToDoList.css';
 
 class ToDoList extends React.Component {
     constructor(props) {
@@ -19,14 +20,24 @@ class ToDoList extends React.Component {
                             id={item.id}
                             checked={this.checked}
                             onClick={this.props.updateStatus}
+                            className='float-left inputHover'
                         />
-                        <label htmlFor={item.id}>
+                        <label
+                            htmlFor={item.id}
+                            className='pl-3 '
+                        >
                             {item.text}
                         </label>
-                    <button id={item.id} onClick={this.props.removeItem}>X</button>
+                        <button
+                            id={item.id}
+                            onClick={this.props.removeItem}
+                            className='float-right'
+                        >
+                            X
+                        </button>
                     </li>
-        ))
-    }
+                ))
+                }
             </ul>
         );
     }

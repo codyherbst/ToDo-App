@@ -1,0 +1,11 @@
+ul {
+    list-style-type: none;
+}
+
+button:hover {
+    color: rgba(255,0,0,1);
+}
+
+.inputHover:hover {
+    color: rgba(0,255,0,1);
+}

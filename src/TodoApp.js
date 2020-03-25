@@ -29,22 +29,31 @@ class TodoApp extends React.Component {
     render() {
 
         return (
-            <div>
-                <h3>TODO</h3>
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="new-todo">
-                        What needs to be done?
-                    </label>
-                    <input
-                        id="new-todo"
-                        onChange={this.handleChange}
-                        value={this.state.text}
-                    />
-                    <button>
-                        Add #{this.state.items.length + 1}
-                    </button>
-                </form>
-                <ToDoList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} />
+            <div className='row container-fluid'>
+                <div className='col-lg-4' />
+                <div className='col-lg-4 col-sm-12'>
+                    <h3 className='text-center'>TODO</h3>
+                    <form onSubmit={this.handleSubmit} className='text-center'>
+                        <label
+                            htmlFor="new-todo"
+                            className='pr-1'
+                        >
+                            What needs to be done?
+                        </label>
+                        <input
+                            id="new-todo"
+                            onChange={this.handleChange}
+                            value={this.state.text}
+                        />
+                        <button className='ml-3'>
+                            Add #{this.state.items.length + 1}
+                        </button>
+                    </form>
+                    <div className='pt-5'>
+                        <ToDoList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} />
+                    </div>
+                </div>
+                <div className='col-lg-4' />
             </div>
         );
     }
@@ -95,7 +104,7 @@ class TodoApp extends React.Component {
 
     async removeItem(e) {
         e.persist();
-        let result = this.state.items.filter((item, i) => {
+        let result = this.state.items.filter((item) => {
 
             if (item.id != e.target.id) {
                 return item;
