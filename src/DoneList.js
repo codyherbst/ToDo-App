@@ -13,7 +13,7 @@ class AllList extends React.Component {
             <ul className='pl-3'>
                 {this.props.items.map(item => (
                     <li key={item.id} className='mr-3 my-1 border'>
-                        {item.status === 'in progress' ?
+                        {item.status === 'done' ?
                             <React.Fragment>
                                 <input
                                     type='checkbox'
