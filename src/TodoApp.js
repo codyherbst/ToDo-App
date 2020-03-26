@@ -3,6 +3,7 @@ import AllList from './AllList'
 import DoneList from './DoneList'
 import ToDoList from './ToDoList'
 import ViewButtons from './ViewButtons'
+import { isCompositeComponent } from 'react-dom/test-utils'
 
 //need to save input field as an object
 //      it will add in progress to status
@@ -30,6 +31,7 @@ class TodoApp extends React.Component {
         this.handleClear = this.handleClear.bind(this);
         this.removeItem = this.removeItem.bind(this);
         this.updatePage = this.updatePage.bind(this);
+        this.clearCompleted = this.clearCompleted.bind(this);
     }
     render() {
 
@@ -87,6 +89,12 @@ class TodoApp extends React.Component {
                             onClick={this.handleClear}
                         >
                             Clear All
+                        </button>
+                        <button
+                            className='mt-5 mr-4'
+                            onClick={this.clearCompleted}
+                        >
+                            Clear Completed
                         </button>
                     </div>
                 </div>
@@ -171,6 +179,19 @@ class TodoApp extends React.Component {
 
     async updatePage(newPage) {
         await this.setState({ currentPage: newPage })
+    }
+
+    async clearCompleted() {
+        await this.setState(prevState => ({
+            items: prevState.items.map(item => {
+                if (item.status === 'done') {
+                    item.status = 'doneHidden'
+                }
+
+                return item;
+            })
+        }));
+        console.log(this.state.items)
     }
 }
 
