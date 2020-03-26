@@ -37,7 +37,7 @@ class TodoApp extends React.Component {
             <div className='row container-fluid'>
                 <div className='col-lg-4' />
                 <div className='col-lg-4 col-sm-12'>
-                    <h3 className='text-center'>To Do List</h3>
+                    <h2 className='text-center'>To Do List</h2>
                     <form onSubmit={this.handleSubmit} className='text-center'>
                         <label
                             htmlFor="new-todo"
@@ -57,7 +57,17 @@ class TodoApp extends React.Component {
                         </button>
                     </form>
 
-                    <div className='mt-5 pt-4 border'>
+                    <div className='container text-center mt-5'>
+                        {
+                            this.state.currentPage === 'AllList' ?
+                                <h3>All</h3> :
+                                this.state.currentPage === 'DoneList' ?
+                                <h3>Completed</h3> :
+                                <h3>To Do</h3>
+                        }
+                    </div>
+
+                    <div className='mt-2 pt-4 border'>
                         {
                             this.state.currentPage === 'AllList' ?
                                 <AllList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} /> :
@@ -131,9 +141,12 @@ class TodoApp extends React.Component {
 
     async removeItem(e) {
         e.persist();
+
         let result = this.state.items.filter((item) => {
 
-            if (item.id != e.target.id) {
+            if (item.id == e.target.id && item.status != 'in progress') {
+                return item;
+            } else if (item.id != e.target.id) {
                 return item;
             }
 
@@ -141,9 +154,14 @@ class TodoApp extends React.Component {
         // console.log({result})
 
         await this.setState(prevState => ({
-            items: result
+            items: result.map(item => {
+                if (item.id == e.target.id && item.status === 'done') {
+                    item.status = 'hiddenDone'
+                }
+                return item;
+            })
         }));
-        // console.log(this.state.items)
+        console.log(this.state.items)
     }
 
     handleClear() {
