@@ -1,7 +1,7 @@
 import React from 'react'
 import AllList from './AllList'
-import DoneList from './AllList'
-import ToDoList from './AllList'
+import DoneList from './DoneList'
+import ToDoList from './ToDoList'
 
 //need to save input field as an object
 //      it will add in progress to status
@@ -20,7 +20,7 @@ class TodoApp extends React.Component {
         this.state = {
             items: localStorage.getItem('toDoList') ? JSON.parse(localStorage.getItem('toDoList')) : [],
             text: '',
-            currentpage: 'AllList'
+            currentPage: 'AllList'
         };
         this.myStorage = localStorage
         this.handleChange = this.handleChange.bind(this);
@@ -58,9 +58,9 @@ class TodoApp extends React.Component {
 
                     <div className='mt-5 pt-4 border'>
                         {
-                            this.state.currentpage === 'AllList' ?
+                            this.state.currentPage === 'AllList' ?
                                 <AllList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} /> :
-                                this.state.currentpage === 'DoneList' ?
+                                this.state.currentPage === 'DoneList' ?
                                     <DoneList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} /> :
                                     <ToDoList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} />
                         }
@@ -168,11 +168,11 @@ class TodoApp extends React.Component {
 
     handleClear() {
         localStorage.clear();
-        this.setState({ items: [], currentpage: 'AllList' })
+        this.setState({ items: [], currentPage: 'AllList' })
     }
 
     async updatePage(newPage) {
-        await this.setState({ currentpage: newPage })
+        await this.setState({ currentPage: newPage })
     }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import './AllList.css';
 
-class AllList extends React.Component {
+class DoneList extends React.Component {
     constructor(props) {
         super(props);
         this.checked = false;
@@ -19,7 +19,7 @@ class AllList extends React.Component {
                                     type='checkbox'
                                     name={item.id}
                                     id={item.id}
-                                    checked={this.checked}
+                                    checked={true}
                                     onClick={this.props.updateStatus}
                                     className='float-left mt-2 ml-1'
                                 />
@@ -47,4 +47,4 @@ class AllList extends React.Component {
     }
 }
 
-export default AllList;
+export default DoneList;
