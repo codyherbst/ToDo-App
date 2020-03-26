@@ -1,4 +1,6 @@
 import React from 'react'
+import AllList from './AllList'
+import DoneList from './DoneList'
 import ToDoList from './ToDoList'
 
 //need to save input field as an object
@@ -18,6 +20,7 @@ class TodoApp extends React.Component {
         this.state = {
             items: localStorage.getItem('toDoList') ? JSON.parse(localStorage.getItem('toDoList')) : [],
             text: '',
+            currentPage: 'AllList'
         };
         this.myStorage = localStorage
         this.handleChange = this.handleChange.bind(this);
@@ -25,6 +28,7 @@ class TodoApp extends React.Component {
         this.updateStatus = this.updateStatus.bind(this);
         this.handleClear = this.handleClear.bind(this);
         this.removeItem = this.removeItem.bind(this);
+        this.updatePage = this.updatePage.bind(this);
     }
     render() {
 
@@ -40,17 +44,60 @@ class TodoApp extends React.Component {
                         >
                             What needs to be done?
                         </label>
+
                         <input
                             id="new-todo"
                             onChange={this.handleChange}
                             value={this.state.text}
                         />
+
                         <button className='ml-3'>
                             Add #{this.state.items.length + 1}
                         </button>
                     </form>
-                    <div className='pt-5'>
-                        <ToDoList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} />
+
+                    <div className='mt-5 pt-4 border'>
+                        {
+                            this.state.currentPage === 'AllList' ?
+                                <AllList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} /> :
+                                this.state.currentPage === 'DoneList' ?
+                                    <DoneList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} /> :
+                                    <ToDoList items={this.state.items} updateStatus={this.updateStatus} removeItem={this.removeItem} />
+                        }
+                    </div>
+
+                    <div className='container text-center mt-3'>
+                        <button
+                            id='AllBtn' 
+                            className='float-left'
+                            onClick={() => {this.updatePage('AllList')}}
+                        >
+                            All
+                        </button>
+
+                        <button
+                            id='DoneBtn'
+                            onClick={() => {this.updatePage('DoneList')}}
+                        >
+                            Completed
+                        </button>
+
+                        <button 
+                            id='ToDoBtn'
+                            className='float-right'
+                            onClick={() => {this.updatePage('ToDoList')}}
+                        >
+                            To Do
+                        </button>
+                    </div>
+
+                    <div className='container text-center'>
+                        <button
+                            className='mt-5 mr-4'
+                            onClick={this.handleClear}
+                        >
+                            Clear All
+                        </button>
                     </div>
                 </div>
                 <div className='col-lg-4' />
@@ -121,7 +168,11 @@ class TodoApp extends React.Component {
 
     handleClear() {
         localStorage.clear();
+        this.setState({ items: [], currentPage: 'AllList' })
+    }
 
+    async updatePage(newPage) {
+        await this.setState({ currentPage: newPage })
     }
 }
 

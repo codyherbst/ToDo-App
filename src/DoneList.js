@@ -1,7 +1,7 @@
 import React from 'react';
 import './AllList.css';
 
-class ToDoList extends React.Component {
+class DoneList extends React.Component {
     constructor(props) {
         super(props);
         this.checked = false;
@@ -13,13 +13,13 @@ class ToDoList extends React.Component {
             <ul className='pl-3'>
                 {this.props.items.map(item => (
                     <li key={item.id} className='mr-3 my-1 border'>
-                        {item.status === 'in progress' ?
+                        {item.status === 'done' ?
                             <React.Fragment>
                                 <input
                                     type='checkbox'
                                     name={item.id}
                                     id={item.id}
-                                    checked={false}
+                                    checked={true}
                                     onClick={this.props.updateStatus}
                                     className='float-left mt-2 ml-1'
                                 />
@@ -47,4 +47,4 @@ class ToDoList extends React.Component {
     }
 }
 
-export default ToDoList;
+export default DoneList;
