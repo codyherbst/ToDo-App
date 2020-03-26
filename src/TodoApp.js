@@ -2,6 +2,7 @@ import React from 'react'
 import AllList from './AllList'
 import DoneList from './DoneList'
 import ToDoList from './ToDoList'
+import ViewButtons from './ViewButtons'
 
 //need to save input field as an object
 //      it will add in progress to status
@@ -36,7 +37,7 @@ class TodoApp extends React.Component {
             <div className='row container-fluid'>
                 <div className='col-lg-4' />
                 <div className='col-lg-4 col-sm-12'>
-                    <h3 className='text-center'>TODO</h3>
+                    <h3 className='text-center'>To Do List</h3>
                     <form onSubmit={this.handleSubmit} className='text-center'>
                         <label
                             htmlFor="new-todo"
@@ -67,28 +68,7 @@ class TodoApp extends React.Component {
                     </div>
 
                     <div className='container text-center mt-3'>
-                        <button
-                            id='AllBtn' 
-                            className='float-left'
-                            onClick={() => {this.updatePage('AllList')}}
-                        >
-                            All
-                        </button>
-
-                        <button
-                            id='DoneBtn'
-                            onClick={() => {this.updatePage('DoneList')}}
-                        >
-                            Completed
-                        </button>
-
-                        <button 
-                            id='ToDoBtn'
-                            className='float-right'
-                            onClick={() => {this.updatePage('ToDoList')}}
-                        >
-                            To Do
-                        </button>
+                        <ViewButtons updatePage={this.updatePage}/>
                     </div>
 
                     <div className='container text-center'>
